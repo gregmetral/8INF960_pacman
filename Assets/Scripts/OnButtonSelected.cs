@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class OnButtonSelected : MonoBehaviour, ISelectHandler, IPointerEnterHandler
 {
     public bool shouldBeSelected = false;
-    public RectTransform pacman;
+    public MainMenuPacman pacman;
 
     private void Awake()
     {
@@ -29,11 +29,11 @@ public class OnButtonSelected : MonoBehaviour, ISelectHandler, IPointerEnterHand
 
     private void MovePacman()
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        pacman.position = new Vector3(
-            rect.position.x - rect.rect.width / 2,
-            rect.position.y,
-            pacman.position.z
-        );
+        pacman.FaceButton(GetComponent<RectTransform>());
+    }
+
+    public void FeedPacman()
+    {
+        pacman.EatButton();
     }
 }

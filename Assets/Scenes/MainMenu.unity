@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldBeSelected: 0
-  pacman: {fileID: 398039159}
+  pacman: {fileID: 398039164}
 --- !u!114 &132188107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +218,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1661985618}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 132188106}
+        m_TargetAssemblyTypeName: OnButtonSelected, Assembly-CSharp
+        m_MethodName: FeedPacman
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1023075604}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &132188108
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -239,6 +263,7 @@ GameObject:
   - component: {fileID: 398039162}
   - component: {fileID: 398039161}
   - component: {fileID: 398039163}
+  - component: {fileID: 398039164}
   m_Layer: 5
   m_Name: PacMan
   m_TagString: Untagged
@@ -262,7 +287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -215, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &398039161
@@ -324,6 +349,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &398039164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398039158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0174c349c14065478fefcc354795097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldEat: 0
+  moveSpeed: 2
 --- !u!1 &926835735
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +518,7 @@ GameObject:
   - component: {fileID: 1023075602}
   - component: {fileID: 1023075601}
   - component: {fileID: 1023075600}
+  - component: {fileID: 1023075604}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -573,6 +613,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1023075604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023075599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb01c7518d6b42846a87bd1ff150670e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSceneName: LevelScene
 --- !u!1 &1090381141
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,7 +812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldBeSelected: 0
-  pacman: {fileID: 398039159}
+  pacman: {fileID: 398039164}
 --- !u!114 &1160384591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,7 +856,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1090381143}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1160384590}
+        m_TargetAssemblyTypeName: OnButtonSelected, Assembly-CSharp
+        m_MethodName: FeedPacman
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1160384592
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1135,7 +1200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldBeSelected: 1
-  pacman: {fileID: 398039159}
+  pacman: {fileID: 398039164}
 --- !u!114 &1503882973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,7 +1244,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1185249238}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1503882972}
+        m_TargetAssemblyTypeName: OnButtonSelected, Assembly-CSharp
+        m_MethodName: FeedPacman
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1023075604}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1503882974
 CanvasRenderer:
   m_ObjectHideFlags: 0
