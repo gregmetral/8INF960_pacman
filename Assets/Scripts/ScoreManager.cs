@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
 {
     private ScoreManager instance;
     private string HighscoreSaveName = "Highscore";
+    private string ScoreSaveName = "GameScore";
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -30,7 +31,6 @@ public class ScoreManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
-            highscore = PlayerPrefs.GetInt(HighscoreSaveName);
             SceneManager.sceneLoaded += OnSceneLoaded;
         } else
         {
@@ -40,7 +40,8 @@ public class ScoreManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        PlayerPrefs.SetInt(HighscoreSaveName, highscore);
+        score = PlayerPrefs.GetInt(ScoreSaveName);
+        highscore = PlayerPrefs.GetInt(HighscoreSaveName);
 
         scoreText = GameObject.FindGameObjectWithTag(scoreTextTag)?.GetComponent<TMP_Text>();
         highscoreText = GameObject.FindGameObjectWithTag(highscoreTextTag)?.GetComponent<TMP_Text>();
@@ -73,5 +74,15 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         newHighscore = false;
+        DisplayScore();
+    }
+
+    public void SaveScore() //sauvegarde le score une fois la partie terminée
+    {
+        PlayerPrefs.SetInt(ScoreSaveName, score);
+        if (newHighscore)
+        {
+            PlayerPrefs.SetInt(HighscoreSaveName, highscore);
+        }
     }
 }
