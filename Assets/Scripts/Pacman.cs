@@ -14,6 +14,8 @@ public class Pacman : MonoBehaviour
     public LayerMask Wall;
     private RaycastHit2D hit;
 
+    public Transform render;
+
 
     void Start()
     {
@@ -62,9 +64,7 @@ public class Pacman : MonoBehaviour
             hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f,0.85f), 0f, nextDirection, 1.5f, Wall);
             if(hit.collider == null)
             {
-                currentDirection = nextDirection;
-                nextDirection = Vector2.zero;
-                
+                ChangeDirection();
             }
         }
 
@@ -72,9 +72,28 @@ public class Pacman : MonoBehaviour
         this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
     }
 
+    private void ChangeDirection()
+    {
+        if (nextDirection == Vector2.up)
+        {
+            render.rotation = Quaternion.Euler(0, 0, 90);
+        } else if (nextDirection == Vector2.down)
+        {
+            render.rotation = Quaternion.Euler(0, 0, -90);
+        } else if (nextDirection == Vector2.right)
+        {
+            render.rotation = Quaternion.Euler(0, 0, 0);
+        } else if (nextDirection == Vector2.left)
+        {
+            render.rotation = Quaternion.Euler(0, 0, 180);
+        }
 
+        currentDirection = nextDirection;
+        nextDirection = Vector2.zero;
+    }
 
-
-
-
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("HERE");
+    }
 }
