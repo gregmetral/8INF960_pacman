@@ -68,7 +68,7 @@ public class Pacman : MonoBehaviour
             }
         }
 
-        //dépalcement
+        //dÃ©palcement
         this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
     }
 
