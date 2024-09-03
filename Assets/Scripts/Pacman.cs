@@ -68,7 +68,7 @@ public class Pacman : MonoBehaviour
             }
         }
 
-        //dépalcement
+        //dÃ©palcement
         this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
     }
 
@@ -90,10 +90,5 @@ public class Pacman : MonoBehaviour
 
         currentDirection = nextDirection;
         nextDirection = Vector2.zero;
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("HERE");
     }
 }
