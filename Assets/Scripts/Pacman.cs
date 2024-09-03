@@ -18,7 +18,6 @@ public class Pacman : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        ResetPacman();
     }
 
     public void ResetPacman()
