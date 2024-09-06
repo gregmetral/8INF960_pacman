@@ -5623,6 +5623,12 @@ MonoBehaviour:
   sprites:
   - {fileID: -22755009, guid: d6a2b3f7829171046a2e81f2421427ad, type: 3}
   - {fileID: -1870589172, guid: d6a2b3f7829171046a2e81f2421427ad, type: 3}
+  home: 1
+  frightened: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  speed: 0.5
 --- !u!1 &961728336
 GameObject:
   m_ObjectHideFlags: 0

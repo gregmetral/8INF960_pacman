@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BlueGhost : MonoBehaviour
@@ -7,10 +8,17 @@ public class BlueGhost : MonoBehaviour
     public Sprite[] sprites;
     public int indexSprite {get; private set;}
 
-    // Variable pour savoir dans quel mode est de fantôme 
+    // Variable pour savoir dans quel mode est le fantôme 
     public bool home = true;
-    public bool frightened = true;
+    public bool frightened = false;
 
+    public LayerMask obstacleLayer;
+
+    public Vector2 direction {get; private set;}
+    private Vector2 currentPosition;
+    public float speed;
+
+    public new Rigidbody2D rigidbody {get; private set;}
 
     private void Awake(){
         this.spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,6 +27,12 @@ public class BlueGhost : MonoBehaviour
     private void Start(){
         // On appelle une fonction de façon répétitive toutes les n secondes
         InvokeRepeating(nameof(Advance), 0.25f, 0.25f);
+        this.direction = Vector2.left;
+    }
+
+    private void FixedUpdate(){
+        this.currentPosition = this.transform.position;
+        this.rigidbody.MovePosition(currentPosition + direction * speed * Time.fixedDeltaTime);
     }
 
     // Fonction pour le chagement de sprite 
@@ -42,4 +56,16 @@ public class BlueGhost : MonoBehaviour
     }
 
 
+
+
+    /*private void Update(){
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision){
+
+        // Si on touche un obstacle on souhaite tout simplement aller dans la direction opposée
+        if (this.enabled && collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
+            this.rigidbody.MovePosition(Vector3.up);
+        }
+    }*/
 }
