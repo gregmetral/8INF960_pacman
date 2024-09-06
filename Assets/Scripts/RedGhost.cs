@@ -7,35 +7,99 @@ public class RedGhost : MonoBehaviour
     private Vector2 spawnPosition = new Vector2(0, 3.5f);
     private Rigidbody2D rb;
     private Vector2 currentPosition;
-    private Vector2 currentDirection = Vector2.left;
+    private Vector2 currentDirection;
+    private Vector2 nextDirection;
     public float speed;
+    public LayerMask Wall;
+    private List<Vector2> availableTilesPosition;
+    private RaycastHit2D hit;
+    public Transform pacmanPosition;
+    private int numberOfPos;
+    private float distance;
+    private float smallestDistance;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        availableTilesPosition = new List<Vector2>();
         ResetRedGhost();
     }
 
     void FixedUpdate()
     {
         currentPosition = this.rb.position;
-        this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
-    }
+        if (nextDirection != Vector2.zero)
+        {
 
-  
-    public void ResetRedGhost()
-    {
-        this.transform.position = spawnPosition;
+            hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
+            if (hit.collider == null)
+            {
+                ChangeDirection();
+            }
+        }
+
+        this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
     }
 
     private void ChangeDirection()
     {
-        
+        currentDirection = nextDirection;
+        nextDirection = Vector2.zero;
     }
 
-    public void OnNodeLocation()
+    public void ResetRedGhost()
     {
-        
+        this.transform.position = spawnPosition;
+        currentDirection = Vector2.left;
+    }
+
+
+    private void OnNodeLocation(Vector2 nodePosition)
+    {
+        smallestDistance = 100.0f;
+        LookForAvailableTiles(nodePosition);
+        foreach(Vector2 possibleDirection in availableTilesPosition)
+        {
+            distance = Vector2.Distance(nodePosition + possibleDirection, pacmanPosition.position);
+            if(distance < smallestDistance)
+            {
+                nextDirection = possibleDirection;
+                smallestDistance = distance;
+            }
+
+            
+        }
+        availableTilesPosition.Clear();
+    }
+
+    private void LookForAvailableTiles(Vector2 nodePosition)
+    {
+        hit = Physics2D.Raycast(nodePosition, Vector2.down, 1.0f, Wall);
+        if (hit.collider == null)
+        {
+            availableTilesPosition.Add(Vector2.down);
+        }
+
+        hit = Physics2D.Raycast(nodePosition, Vector2.up, 1.0f, Wall);
+        if (hit.collider == null)
+        {
+            availableTilesPosition.Add(Vector2.up);
+        }
+
+        hit = Physics2D.Raycast(nodePosition, Vector2.left, 1.0f, Wall);
+        if (hit.collider == null)
+        {
+            availableTilesPosition.Add(Vector2.left);
+        }
+
+        hit = Physics2D.Raycast(nodePosition, Vector2.right, 1.0f, Wall);
+        if (hit.collider == null)
+        {
+            availableTilesPosition.Add(Vector2.right);
+        }
+
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,7 +107,7 @@ public class RedGhost : MonoBehaviour
         
         if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
         {
-            OnNodeLocation();
+            OnNodeLocation(collision.gameObject.transform.position);
         }
     }
 
