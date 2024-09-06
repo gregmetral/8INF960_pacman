@@ -61,7 +61,7 @@ public class RedGhost : MonoBehaviour
         foreach(Vector2 possibleDirection in availableTilesPosition)
         {
             distance = Vector2.Distance(nodePosition + possibleDirection, pacmanPosition.position);
-            if(distance < smallestDistance)
+            if(distance < smallestDistance && possibleDirection != -currentDirection)
             {
                 nextDirection = possibleDirection;
                 smallestDistance = distance;
