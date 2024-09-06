@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedGhost : MonoBehaviour
+public class RedGhost : Ghost
 {
-    private Vector2 spawnPosition = new Vector2(0, 3.5f);
-    private Rigidbody2D rb;
-    private Vector2 currentPosition;
-    private Vector2 currentDirection;
-    private Vector2 nextDirection;
-    public float speed;
     public LayerMask Wall;
     private List<Vector2> availableTilesPosition;
     private RaycastHit2D hit;
-    public Transform pacmanPosition;
     private int numberOfPos;
     private float distance;
     private float smallestDistance;
