@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,13 +11,23 @@ public class GameManager : MonoBehaviour
     private int lives;
     public Transform orbs;
     public Pacman pacman;
-    public GameObject[] ghosts;
     public ScoreManager scoreManager;
     public int totalOrbs;
     public int numOrbs;
     public Fruit fruitManager;
 
     public RedGhost redGhost;
+    public BlueGhost blueGhost;
+    // public PinkGhost pinkGhost;
+    public OrangeGhost orangeGhost;
+
+    public bool isFrightened = false;
+    public float frightenedTimer = 0.0f;
+    public float frightenedDuration = 8.0f;
+
+    public float[] ghostModeDurations = {20.0f, 7.0f, 20.0f, 5.0f, 20.0f, 5.0f, 1000.0f};
+    public float modeTimer = 0.0f;
+    public int currentModeIndex = 0;
 
     private void Start()
     {
@@ -39,8 +50,49 @@ public class GameManager : MonoBehaviour
     {
         pacman.ResetPacman(); // reset position de pacman
         fruitManager.NewRound(); // reset fruit
-        redGhost.ResetRedGhost(); // reset position du ghost
+        redGhost.ResetGhost(); // reset position du ghost
+        blueGhost.ResetGhost(); // reset position du ghost
+        orangeGhost.ResetGhost(); // reset position du ghost
+        // pinkGhost.ResetGhost(); // reset position du ghost
+
+        modeTimer = 0.0f;
+        currentModeIndex = 0;
+        isFrightened = false;
+        frightenedTimer = 0.0f;
+        redGhost.SetNormalMode();
+        blueGhost.SetNormalMode();
+        orangeGhost.SetNormalMode();
+        // pinkGhost.SetNormalMode();
+
         //timer 3 2 1 avant de commencer
+    }
+
+    private void Update()
+    {
+        if (isFrightened)
+        {
+            frightenedTimer += Time.deltaTime;
+            if (frightenedTimer >= frightenedDuration)
+            {
+                redGhost.SetNormalMode();
+                blueGhost.SetNormalMode();
+                orangeGhost.SetNormalMode();
+                // pinkGhost.SetNormalMode();
+                isFrightened = false;
+                frightenedTimer = 0;
+            }
+        }
+
+        modeTimer += Time.deltaTime;
+        if (modeTimer >= ghostModeDurations[currentModeIndex])
+        {
+            modeTimer = 0;
+            currentModeIndex++;
+            redGhost.ToggleScatterMode();
+            blueGhost.ToggleScatterMode();
+            orangeGhost.ToggleScatterMode();
+            // pinkGhost.ToggleScatterMode();
+        }
     }
 
     public void OnPacmanDeath() //a appeler quand collision entre pacman et ghost
@@ -101,7 +153,12 @@ public class GameManager : MonoBehaviour
     {
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);
-    }
 
-    
+        redGhost.SetFrightenedMode();
+        blueGhost.SetFrightenedMode();
+        orangeGhost.SetFrightenedMode();
+        // pinkGhost.SetFrightenedMode();
+        isFrightened = true;
+        frightenedTimer = 0;
+    }
 }
