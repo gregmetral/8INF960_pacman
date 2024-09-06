@@ -1,21 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedGhost : Ghost
+public class BlueGhost : Ghost
 {
     public LayerMask Wall;
     private List<Vector2> availableTilesPosition;
     private RaycastHit2D hit;
-    private int numberOfPos;
-    private float distance;
-    private float smallestDistance;
+    private Vector2 spawnPositionBlue = new Vector2(-4.5f, 0.5f);
+
+    private bool home = false;
+    private bool frightened = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         availableTilesPosition = new List<Vector2>();
-        ResetRedGhost();
+        ResetBlueGhost();
     }
 
     void FixedUpdate()
@@ -40,28 +40,41 @@ public class RedGhost : Ghost
         nextDirection = Vector2.zero;
     }
 
-    public void ResetRedGhost()
+    public void ResetBlueGhost()
     {
-        this.transform.position = spawnPosition;
+        this.transform.position = spawnPositionBlue;
         currentDirection = Vector2.left;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {   
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
+        {
+            OnNodeLocation(collision.gameObject.transform.position);
+        }
+    }
 
     private void OnNodeLocation(Vector2 nodePosition)
     {
-        smallestDistance = 100.0f;
         LookForAvailableTiles(nodePosition);
-        foreach(Vector2 possibleDirection in availableTilesPosition)
-        {
-            distance = Vector2.Distance(nodePosition + possibleDirection, pacmanPosition.position);
-            if(distance < smallestDistance && possibleDirection != -currentDirection)
-            {
-                nextDirection = possibleDirection;
-                smallestDistance = distance;
+
+        int index = Random.Range(0, availableTilesPosition.Count);
+
+        if (this.home == false && this.frightened == false){
+            if (availableTilesPosition[index] == -this.currentDirection && availableTilesPosition.Count > 1){
+
+                index++;
+
+                if(index >= availableTilesPosition.Count){
+                    index = 0;
+                }
             }
 
-            
+            this.nextDirection = availableTilesPosition[index];
+
         }
+
+
         availableTilesPosition.Clear();
     }
 
@@ -89,14 +102,6 @@ public class RedGhost : Ghost
         if (hit.collider == null)
         {
             availableTilesPosition.Add(Vector2.right);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {   
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
-        {
-            OnNodeLocation(collision.gameObject.transform.position);
         }
     }
 
