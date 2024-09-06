@@ -5,9 +5,7 @@ public class BlueGhost : Ghost
     new void Start()
     {
         base.Start();
-
         spawnPosition = new Vector2(-4.5f, 0.5f);
-
         ResetGhost();
     }
 
