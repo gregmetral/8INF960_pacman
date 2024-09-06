@@ -12,11 +12,11 @@ public class Ghost : MonoBehaviour
 
 
     public Transform pacmanPosition;
-    protected bool isScattered = false;
+    protected bool isScattered;
 
-    public bool scatterMode = false;
-    public bool home = false;
-    public bool frightened = false;
+    public bool scatterMode;
+    public bool home;
+    public bool frightened;
 
     public Transform Nodes;
     protected List<Node> scatterNodes;
@@ -31,6 +31,10 @@ public class Ghost : MonoBehaviour
     protected int numberOfPos;
     protected float distance;
     protected float smallestDistance;
+
+    public GameObject eyes;
+    public GameObject body;
+    public GameObject frightenedBody;
 
     protected void Start()
     {
@@ -51,6 +55,10 @@ public class Ghost : MonoBehaviour
     public virtual void ResetGhost()
     {
         transform.position = spawnPosition;
+        isScattered = false;
+        scatterMode = false;
+        home = false;
+        frightened = false;
     }
 
     protected void FixedUpdate()
@@ -76,19 +84,32 @@ public class Ghost : MonoBehaviour
 
     protected void LookForAvailableTiles(Vector2 nodePosition)
     {
-        LookForAvailableTile(nodePosition, Vector2.up);
-        LookForAvailableTile(nodePosition, Vector2.down);
-        LookForAvailableTile(nodePosition, Vector2.left);
-        LookForAvailableTile(nodePosition, Vector2.right);
+        if (LookForAvailableTile(nodePosition, Vector2.up) != Vector2.zero)
+        {
+            availableTilesPosition.Add(Vector2.up);
+        }
+        if (LookForAvailableTile(nodePosition, Vector2.down) != Vector2.zero)
+        {
+            availableTilesPosition.Add(Vector2.down);
+        }
+        if (LookForAvailableTile(nodePosition, Vector2.left) != Vector2.zero)
+        {
+            availableTilesPosition.Add(Vector2.left);
+        }
+        if (LookForAvailableTile(nodePosition, Vector2.right) != Vector2.zero)
+        {
+            availableTilesPosition.Add(Vector2.right);
+        }
     }
 
-    protected void LookForAvailableTile(Vector2 nodePosition, Vector2 direction, float d = 1.0f)
+    protected Vector2 LookForAvailableTile(Vector2 nodePosition, Vector2 direction, float d = 1.0f)
     {
         hit = Physics2D.Raycast(nodePosition, direction, d, Wall);
         if (hit.collider == null)
         {
-            availableTilesPosition.Add(direction);
+            return direction;
         }
+        return Vector2.zero;
     }
 
     protected void ScatterMode(GameObject obj)
@@ -186,15 +207,64 @@ public class Ghost : MonoBehaviour
 
             if (result.Key != Vector2.zero)
             {
-                LookForAvailableTile(node.transform.position, dirToCheck, result.Value);
-                if (availableTilesPosition.Count > 0)
+                Vector2 isOk = LookForAvailableTile(node.transform.position, dirToCheck, result.Value);
+                if (isOk != Vector2.zero)
                 {
                     dir = dirToCheck;
-                    availableTilesPosition.Clear();
                 }
             }
         }
 
         return dir;
+    }
+
+    public void SetFrightenedMode()
+    {
+        frightened = true;
+        body.SetActive(false);
+        eyes.SetActive(false);
+        frightenedBody.SetActive(true);
+        speed = 2.0f;
+    }
+
+    public void SetNormalMode()
+    {
+        frightened = false;
+        body.SetActive(true);
+        eyes.SetActive(true);
+        frightenedBody.SetActive(false);
+        speed = 7.0f;
+    }
+
+    public void FrightenedModeMove(GameObject obj)
+    {
+        Vector2 nodePosition = obj.transform.position;
+
+        Vector2[] dirToCheck = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+        List<Vector2> availableDir = new List<Vector2>();
+
+        smallestDistance = 100.0f;
+
+        foreach (var d in dirToCheck)
+        {
+            if (d != -currentDirection)
+            {
+                Vector2 isOk = LookForAvailableTile(nodePosition, d, 1.5f);
+
+                if (isOk != Vector2.zero)
+                {
+                    availableDir.Add(d);
+                }
+            }
+        }
+
+        int index = Random.Range(0, availableDir.Count);
+
+        nextDirection = availableDir[index];
+    }
+
+    public void ToggleScatterMode()
+    {
+        scatterMode = !scatterMode;
     }
 }

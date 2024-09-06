@@ -54,13 +54,17 @@ public class OrangeGhost : Ghost
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
         {
-            if (!scatterMode)
+            if (scatterMode)
             {
-                OnNodeLocation(collision.gameObject);
+                ScatterMode(collision.gameObject);
+            }
+            else if (frightened)
+            {
+                FrightenedModeMove(collision.gameObject);
             }
             else
             {
-                ScatterMode(collision.gameObject);
+                OnNodeLocation(collision.gameObject);
             }
         }
     }
