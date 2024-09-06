@@ -12,13 +12,17 @@ public class GameManager : MonoBehaviour
     public Pacman pacman;
     public GameObject[] ghosts;
     public ScoreManager scoreManager;
-    private int numOrbs;
+    public int totalOrbs;
+    public int numOrbs;
+    public Fruit fruitManager;
+
+    public RedGhost redGhost;
 
     private void Start()
     {
         StartGame();
     }
-    private void StartGame() // début de partie
+    private void StartGame() // dï¿½but de partie
     {
         scoreManager.ResetScore();
         SetLives(3);
@@ -27,14 +31,16 @@ public class GameManager : MonoBehaviour
             orb.gameObject.SetActive(true);
             numOrbs += 1;
         }
+        totalOrbs = numOrbs;
         StartRound();
     }
 
-    private void StartRound() //début de round (1 round/vie)
+    private void StartRound() //dï¿½but de round (1 round/vie)
     {
         pacman.ResetPacman(); // reset position de pacman
+        fruitManager.NewRound(); // reset fruit
+        redGhost.ResetRedGhost(); // reset position du ghost
         //timer 3 2 1 avant de commencer
-
     }
 
     public void OnPacmanDeath() //a appeler quand collision entre pacman et ghost
@@ -68,14 +74,21 @@ public class GameManager : MonoBehaviour
         this.numOrbs = newNumOrbs;
     }
 
-    private void OnOrbEaten(GameObject orb) //désactive l'orbe et compte le nombre d'orbes restant
+    private void OnOrbEaten(GameObject orb) //dï¿½sactive l'orbe et compte le nombre d'orbes restant
     {
         orb.SetActive(false);
         SetNumOrbs(numOrbs - 1);
         if (numOrbs == 0)
         {
-            EndGame();
+            SetLives(3);
+            foreach(Transform o in orbs)
+            {
+                o.gameObject.SetActive(true);
+                numOrbs += 1;
+            }
+            StartRound();
         }
+        fruitManager.OrbEat();
     }
 
     public void EatOrb(GameObject orb) //a appeler quand pacman mange une orbe
@@ -84,7 +97,7 @@ public class GameManager : MonoBehaviour
         OnOrbEaten(orb);
     }
 
-    public void EatPowerOrb(GameObject powerOrb) //a appeler quand pacman mange une orbe spéciale
+    public void EatPowerOrb(GameObject powerOrb) //a appeler quand pacman mange une orbe spï¿½ciale
     {
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);
