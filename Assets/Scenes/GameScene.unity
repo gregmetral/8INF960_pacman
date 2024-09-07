@@ -5531,6 +5531,7 @@ MonoBehaviour:
   redGhost: {fileID: 75747214}
   blueGhost: {fileID: 512340887}
   orangeGhost: {fileID: 985867772}
+  livesPrefab: {fileID: 2605680255119407343, guid: fc49110bc0a713e40a830664ecf9958e, type: 3}
   isFrightened: 0
   frightenedTimer: 0
   frightenedDuration: 8
@@ -5544,6 +5545,7 @@ MonoBehaviour:
   - 1000
   modeTimer: 0
   currentModeIndex: 0
+  livesTable: []
 --- !u!4 &191415275
 Transform:
   m_ObjectHideFlags: 0

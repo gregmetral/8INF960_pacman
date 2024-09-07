@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public BlueGhost blueGhost;
     // public PinkGhost pinkGhost;
     public OrangeGhost orangeGhost;
+    public GameObject livesPrefab;
 
     public bool isFrightened = false;
     public float frightenedTimer = 0.0f;
@@ -28,16 +29,24 @@ public class GameManager : MonoBehaviour
     public float[] ghostModeDurations = {20.0f, 7.0f, 20.0f, 5.0f, 20.0f, 5.0f, 1000.0f};
     public float modeTimer = 0.0f;
     public int currentModeIndex = 0;
+    public List<GameObject> livesTable;
 
     private void Start()
     {
+        livesTable= new List<GameObject>();
         StartGame();
     }
     private void StartGame() // d�but de partie
     {
         scoreManager.ResetScore();
         SetLives(3);
-        foreach(Transform orb in orbs)
+        for(int i = 0; i < lives; i++)
+        {
+            livesTable.Add(Instantiate(livesPrefab, new Vector2(-30 + 3*i, -14), Quaternion.identity));
+        }
+
+
+        foreach (Transform orb in orbs)
         {
             orb.gameObject.SetActive(true);
             numOrbs += 1;
@@ -100,6 +109,9 @@ public class GameManager : MonoBehaviour
         if(this.lives-1 != 0)
         {
             SetLives(this.lives - 1);
+            int index = livesTable.Count - 1;
+            Destroy(livesTable[index]);
+            livesTable.RemoveAt(index);
             StartRound();
         }
         else
