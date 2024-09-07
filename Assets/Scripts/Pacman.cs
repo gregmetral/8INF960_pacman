@@ -64,7 +64,7 @@ public class Pacman : MonoBehaviour
         if (nextDirection != Vector2.zero)
         {
             
-            hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f,0.85f), 0f, nextDirection, 1.5f, Wall);
+            hit = Physics2D.BoxCast(currentPosition, new Vector2(0.8f,0.8f), 0f, nextDirection, 1.5f, Wall);
             if(hit.collider == null)
             {
                 ChangeDirection();
