@@ -179,10 +179,22 @@ public class GameManager : MonoBehaviour
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);
 
-        redGhost.SetFrightenedMode();
-        blueGhost.SetFrightenedMode();
-        orangeGhost.SetFrightenedMode();
-        pinkGhost.SetFrightenedMode();
+        if (!redGhost.home)
+        {
+            redGhost.SetFrightenedMode();
+        }
+        if (!blueGhost.home)
+        {
+            blueGhost.SetFrightenedMode();
+        }
+        if (!orangeGhost.home)
+        {
+            orangeGhost.SetFrightenedMode();
+        }
+        if (!pinkGhost.home)
+        {
+            pinkGhost.SetFrightenedMode();
+        }
         isFrightened = true;
         frightenedTimer = 0;
     }

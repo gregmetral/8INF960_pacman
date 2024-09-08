@@ -58,7 +58,7 @@ public class Ghost : MonoBehaviour
         isScattered = false;
         scatterMode = false;
         home = false;
-        frightened = false;
+        SetNormalMode();
     }
 
     protected void FixedUpdate()
@@ -313,6 +313,7 @@ public class Ghost : MonoBehaviour
             if (frightened)
             {
                 ResetGhost();
+                LeaveGhostHouse();
             }
             else
             {
