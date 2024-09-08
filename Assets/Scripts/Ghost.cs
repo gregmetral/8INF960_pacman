@@ -267,4 +267,19 @@ public class Ghost : MonoBehaviour
     {
         scatterMode = !scatterMode;
     }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pacman"))
+        {
+            if (frightened)
+            {
+                Debug.Log("Ghost death");
+            }
+            else
+            {
+                FindObjectOfType<GameManager>().OnPacmanDeath();
+            }
+        }
+    }
 }
