@@ -6,7 +6,7 @@ public class OrangeGhost : Ghost
     {
         base.Start();
 
-        spawnPosition = new Vector2(4.5f, 3.5f);
+        spawnPosition = new Vector2(2f, 0.5f);
 
         ResetGhost();
     }
@@ -14,15 +14,16 @@ public class OrangeGhost : Ghost
     public override void ResetGhost()
     {
         base.ResetGhost();
-        ResetOrageGhost();
+        ResetOrangeGhost();
     }
 
-    public void ResetOrageGhost()
+    public void ResetOrangeGhost()
     {
-        currentDirection = Vector2.down;
+        nextDirection = Vector2.down;
+        home = true;
     }
 
-    private void OnNodeLocation(GameObject node)
+    public override void OnNodeLocation(GameObject node)
     {
         Vector2 nodePosition = node.transform.position;
 
@@ -48,24 +49,5 @@ public class OrangeGhost : Ghost
             ScatterMode(node);
         }
 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
-        {
-            if (scatterMode)
-            {
-                ScatterMode(collision.gameObject);
-            }
-            else if (frightened)
-            {
-                FrightenedModeMove(collision.gameObject);
-            }
-            else
-            {
-                OnNodeLocation(collision.gameObject);
-            }
-        }
     }
 }

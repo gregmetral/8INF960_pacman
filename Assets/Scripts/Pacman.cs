@@ -8,7 +8,7 @@ public class Pacman : MonoBehaviour
 
     private Rigidbody2D rb;
     public float speed;
-    private Vector2 currentDirection;
+    public Vector2 currentDirection { get; private set; }
     private Vector2 nextDirection;
     private Vector2 spawnPosition = new Vector2(0f,-8.5f);
     private Vector2 currentPosition;

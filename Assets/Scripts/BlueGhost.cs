@@ -5,7 +5,7 @@ public class BlueGhost : Ghost
     new void Start()
     {
         base.Start();
-        spawnPosition = new Vector2(-4.5f, 0.5f);
+        spawnPosition = new Vector2(-2f, 0.5f);
         ResetGhost();
     }
 
@@ -17,30 +17,13 @@ public class BlueGhost : Ghost
 
     public void ResetBlueGhost()
     {
-        currentDirection = Vector2.left;
+        nextDirection = Vector2.down;
+        home = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {   
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
-        {
-            if (scatterMode)
-            {
-                ScatterMode(collision.gameObject);
-            }
-            else if (frightened)
-            {
-                FrightenedModeMove(collision.gameObject);
-            }
-            else
-            {
-                OnNodeLocation(collision.gameObject.transform.position);
-            }
-        }
-    }
-
-    private void OnNodeLocation(Vector2 nodePosition)
+    public override void OnNodeLocation(GameObject gameObject)
     {
+        Vector2 nodePosition = gameObject.transform.position;
         LookForAvailableTiles(nodePosition);
 
         int index = Random.Range(0, availableTilesPosition.Count);

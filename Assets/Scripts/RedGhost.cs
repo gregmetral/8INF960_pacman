@@ -24,8 +24,9 @@ public class RedGhost : Ghost
         currentDirection = Vector2.left;
     }
 
-    private void OnNodeLocation(Vector2 nodePosition)
+    public override void OnNodeLocation(GameObject gameObject)
     {
+        Vector2 nodePosition = gameObject.transform.position;
         smallestDistance = 100.0f;
         LookForAvailableTiles(nodePosition);
         foreach(Vector2 possibleDirection in availableTilesPosition)
@@ -40,24 +41,5 @@ public class RedGhost : Ghost
             
         }
         availableTilesPosition.Clear();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
-        {
-            if (scatterMode)
-            {
-                ScatterMode(collision.gameObject);
-            }
-            else if (frightened)
-            {
-                FrightenedModeMove(collision.gameObject);
-            }
-            else
-            {
-                OnNodeLocation(collision.gameObject.transform.position);
-            }
-        }
     }
 }

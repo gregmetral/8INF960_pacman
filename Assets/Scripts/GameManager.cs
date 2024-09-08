@@ -14,11 +14,12 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public int totalOrbs;
     public int numOrbs;
+    public int nbOrbEaten;
     public Fruit fruitManager;
 
     public RedGhost redGhost;
     public BlueGhost blueGhost;
-    // public PinkGhost pinkGhost;
+    public PinkGhost pinkGhost;
     public OrangeGhost orangeGhost;
     public GameObject livesPrefab;
 
@@ -62,7 +63,7 @@ public class GameManager : MonoBehaviour
         redGhost.ResetGhost(); // reset position du ghost
         blueGhost.ResetGhost(); // reset position du ghost
         orangeGhost.ResetGhost(); // reset position du ghost
-        // pinkGhost.ResetGhost(); // reset position du ghost
+        pinkGhost.ResetGhost(); // reset position du ghost
 
         modeTimer = 0.0f;
         currentModeIndex = 0;
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
         redGhost.SetNormalMode();
         blueGhost.SetNormalMode();
         orangeGhost.SetNormalMode();
-        // pinkGhost.SetNormalMode();
+        pinkGhost.SetNormalMode();
 
         //timer 3 2 1 avant de commencer
     }
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
                 redGhost.SetNormalMode();
                 blueGhost.SetNormalMode();
                 orangeGhost.SetNormalMode();
-                // pinkGhost.SetNormalMode();
+                pinkGhost.SetNormalMode();
                 isFrightened = false;
                 frightenedTimer = 0;
             }
@@ -100,13 +101,13 @@ public class GameManager : MonoBehaviour
             redGhost.ToggleScatterMode();
             blueGhost.ToggleScatterMode();
             orangeGhost.ToggleScatterMode();
-            // pinkGhost.ToggleScatterMode();
+            pinkGhost.ToggleScatterMode();
         }
     }
 
     public void OnPacmanDeath() //a appeler quand collision entre pacman et ghost
     {
-        if(this.lives-1 != 0)
+        if(this.lives - 1 != 0)
         {
             SetLives(this.lives - 1);
             int index = livesTable.Count - 1;
@@ -118,7 +119,6 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
-
     }
 
     private void EndGame() //fin de partie, sauvegarde le score et load la scene de fin
@@ -153,6 +153,19 @@ public class GameManager : MonoBehaviour
             StartRound();
         }
         fruitManager.OrbEat();
+        nbOrbEaten ++;
+        if (nbOrbEaten == 2)
+        {
+            pinkGhost.LeaveGhostHouse();
+        }
+        if (nbOrbEaten == 82)
+        {
+            orangeGhost.LeaveGhostHouse();
+        }
+        else if (nbOrbEaten == 30)
+        {
+            blueGhost.LeaveGhostHouse();
+        }
     }
 
     public void EatOrb(GameObject orb) //a appeler quand pacman mange une orbe
@@ -166,10 +179,22 @@ public class GameManager : MonoBehaviour
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);
 
-        redGhost.SetFrightenedMode();
-        blueGhost.SetFrightenedMode();
-        orangeGhost.SetFrightenedMode();
-        // pinkGhost.SetFrightenedMode();
+        if (!redGhost.home)
+        {
+            redGhost.SetFrightenedMode();
+        }
+        if (!blueGhost.home)
+        {
+            blueGhost.SetFrightenedMode();
+        }
+        if (!orangeGhost.home)
+        {
+            orangeGhost.SetFrightenedMode();
+        }
+        if (!pinkGhost.home)
+        {
+            pinkGhost.SetFrightenedMode();
+        }
         isFrightened = true;
         frightenedTimer = 0;
     }
