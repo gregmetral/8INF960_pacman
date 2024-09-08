@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
 {
-    
-    private int lives;
+    [Header("Pacman")]
     public Transform orbs;
     public Pacman pacman;
     public ScoreManager scoreManager;
@@ -16,12 +16,18 @@ public class GameManager : MonoBehaviour
     public int numOrbs;
     public Fruit fruitManager;
 
-    public RedGhost redGhost;
-    public BlueGhost blueGhost;
-    public PinkGhost pinkGhost;
-    public OrangeGhost orangeGhost;
+    private int lives;
     public GameObject livesPrefab;
+    public List<GameObject> livesTable;
 
+    [Header("Ghosts")]
+    public float ghostSpeed = 7;
+    public Ghost[] ghosts;
+    public int[] pelletsBeforeGhost;
+    public Vector2 boxExitPosition = new Vector2(0, 3.5f);
+
+    [Header("Frightened Ghosts")]
+    public float ghostFrightenedSpeed = 3;
     public bool isFrightened = false;
     public float frightenedTimer = 0.0f;
     public float frightenedDuration = 8.0f;
@@ -29,7 +35,6 @@ public class GameManager : MonoBehaviour
     public float[] ghostModeDurations = {20.0f, 7.0f, 20.0f, 5.0f, 20.0f, 5.0f, 1000.0f};
     public float modeTimer = 0.0f;
     public int currentModeIndex = 0;
-    public List<GameObject> livesTable;
 
     private void Start()
     {
@@ -57,23 +62,45 @@ public class GameManager : MonoBehaviour
 
     private void StartRound() //d�but de round (1 round/vie)
     {
-        pacman.ResetPacman(); // reset position de pacman
-        fruitManager.NewRound(); // reset fruit
-        redGhost.ResetGhost(); // reset position du ghost
-        blueGhost.ResetGhost(); // reset position du ghost
-        orangeGhost.ResetGhost(); // reset position du ghost
-        pinkGhost.ResetGhost(); // reset position du ghost
-
         modeTimer = 0.0f;
         currentModeIndex = 0;
         isFrightened = false;
         frightenedTimer = 0.0f;
-        redGhost.SetNormalMode();
-        blueGhost.SetNormalMode();
-        orangeGhost.SetNormalMode();
-        pinkGhost.SetNormalMode();
+
+        pacman.ResetPacman(); // reset position de pacman
+        pacman.enabled = false;
+        fruitManager.NewRound(); // reset fruit
+        foreach(Ghost ghost in ghosts)
+        {
+            ghost.enabled = false;
+        }
 
         //timer 3 2 1 avant de commencer
+        StartCoroutine(StartCooldown());
+    }
+
+    private IEnumerator StartCooldown()
+    {
+        Debug.Log("3");
+        yield return new WaitForSeconds(1);
+        Debug.Log("2");
+        yield return new WaitForSeconds(1);
+        Debug.Log("1");
+        yield return new WaitForSeconds(1);
+        Debug.Log("GO! GO! GO!");
+        yield return new WaitForSeconds(1);
+        pacman.enabled = true;
+        int i = 0;
+        foreach (Ghost ghost in ghosts)
+        {
+            if (totalOrbs - numOrbs >= pelletsBeforeGhost[i])
+            {
+                ghost.enabled = true;
+                ghost.ResetGhost();
+                ghost.SetNormalMode(ghostSpeed);
+            }
+            i++;
+        }
     }
 
     private void Update()
@@ -83,10 +110,10 @@ public class GameManager : MonoBehaviour
             frightenedTimer += Time.deltaTime;
             if (frightenedTimer >= frightenedDuration)
             {
-                redGhost.SetNormalMode();
-                blueGhost.SetNormalMode();
-                orangeGhost.SetNormalMode();
-                pinkGhost.SetNormalMode();
+                foreach (Ghost ghost in ghosts)
+                {
+                    ghost.SetNormalMode(ghostSpeed);
+                }
                 isFrightened = false;
                 frightenedTimer = 0;
             }
@@ -97,10 +124,10 @@ public class GameManager : MonoBehaviour
         {
             modeTimer = 0;
             currentModeIndex++;
-            redGhost.ToggleScatterMode();
-            blueGhost.ToggleScatterMode();
-            orangeGhost.ToggleScatterMode();
-            pinkGhost.ToggleScatterMode();
+            foreach (Ghost ghost in ghosts)
+            {
+                ghost.ToggleScatterMode();
+            }
         }
     }
 
@@ -152,6 +179,22 @@ public class GameManager : MonoBehaviour
             StartRound();
         }
         fruitManager.OrbEat();
+        checkIfNewGhost();
+    }
+
+    private void checkIfNewGhost()
+    {
+        int i = 0;
+        foreach (int pbg in pelletsBeforeGhost)
+        {
+            if (totalOrbs - numOrbs == pbg)
+            {
+                ghosts[i].enabled = true;
+                ghosts[i].ResetGhost();
+                ghosts[i].SetNormalMode(ghostSpeed);
+            }
+            i++;
+        }
     }
 
     public void EatOrb(GameObject orb) //a appeler quand pacman mange une orbe
@@ -165,10 +208,10 @@ public class GameManager : MonoBehaviour
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);
 
-        redGhost.SetFrightenedMode();
-        blueGhost.SetFrightenedMode();
-        orangeGhost.SetFrightenedMode();
-        pinkGhost.SetFrightenedMode();
+        foreach (Ghost ghost in ghosts)
+        {
+            ghost.SetFrightenedMode(ghostFrightenedSpeed);
+        }
         isFrightened = true;
         frightenedTimer = 0;
     }

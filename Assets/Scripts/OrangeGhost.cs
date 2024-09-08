@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class OrangeGhost : Ghost
 {
-    new void Start()
-    {
-        base.Start();
-
-        spawnPosition = new Vector2(4.5f, 3.5f);
-
-        ResetGhost();
-    }
+    //new void Start()
+    //{
+    //    base.Start();
+    //    spawnPosition = new Vector2(2f, 0.5f);
+    //    ResetGhost();
+    //}
 
     public override void ResetGhost()
     {
@@ -47,7 +45,6 @@ public class OrangeGhost : Ghost
         {
             ScatterMode(node);
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

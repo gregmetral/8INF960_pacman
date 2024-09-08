@@ -30,8 +30,8 @@ public class Pacman : MonoBehaviour
     {
         //reset la position de pacman
         this.transform.position = spawnPosition;
-        currentDirection = Vector2.zero;
-        nextDirection = Vector2.zero;
+        currentDirection = Vector2.right;
+        nextDirection = Vector2.right;
     }
 
     void Update()

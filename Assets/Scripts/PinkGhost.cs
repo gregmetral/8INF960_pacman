@@ -5,14 +5,12 @@ public class PinkGhost : Ghost
     public Pacman pacman;
     private int targetInFrontOfPacman = 4;
 
-    new void Start()
-    {
-        base.Start();
-
-        spawnPosition = new Vector2(0, -2.5f);
-
-        ResetGhost();
-    }
+    //new void Start()
+    //{
+    //    base.Start();
+    //    spawnPosition = new Vector2(0, 0.5f);
+    //    ResetGhost();
+    //}
 
     public override void ResetGhost()
     {

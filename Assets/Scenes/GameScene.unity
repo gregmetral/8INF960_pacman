@@ -5477,7 +5477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313552f69a45f3a48bddc6f6cfd14c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  spawnPosition: {x: 0, y: 3.5}
+  speed: 0
   pacmanPosition: {fileID: 2027316637}
   scatterMode: 0
   home: 0
@@ -5528,11 +5529,17 @@ MonoBehaviour:
   totalOrbs: 0
   numOrbs: 0
   fruitManager: {fileID: 1354390019}
-  redGhost: {fileID: 75747214}
-  blueGhost: {fileID: 512340887}
-  pinkGhost: {fileID: 1613876346}
-  orangeGhost: {fileID: 985867772}
   livesPrefab: {fileID: 2605680255119407343, guid: fc49110bc0a713e40a830664ecf9958e, type: 3}
+  livesTable: []
+  ghostSpeed: 7
+  ghosts:
+  - {fileID: 75747214}
+  - {fileID: 1613876346}
+  - {fileID: 512340887}
+  - {fileID: 985867772}
+  pelletsBeforeGhost: 00000000010000001e00000052000000
+  boxExitPosition: {x: 0, y: 3.5}
+  ghostFrightenedSpeed: 7
   isFrightened: 0
   frightenedTimer: 0
   frightenedDuration: 8
@@ -5546,7 +5553,6 @@ MonoBehaviour:
   - 1000
   modeTimer: 0
   currentModeIndex: 0
-  livesTable: []
 --- !u!4 &191415275
 Transform:
   m_ObjectHideFlags: 0
@@ -5775,7 +5781,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237bf5ea05efc8947852d458c35e625b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  spawnPosition: {x: -2, y: 0.5}
+  speed: 0
   pacmanPosition: {fileID: 2027316637}
   scatterMode: 0
   home: 0
@@ -5862,7 +5869,7 @@ Transform:
   m_GameObject: {fileID: 512340886}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5990,7 +5997,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d65aa956b7569874fab274083826a77f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b97167c35748db84fb4d32f4f242922a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6135,7 +6142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcea34ae40b8b8d47996fa726d892670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  spawnPosition: {x: 2, y: 0.5}
+  speed: 0
   pacmanPosition: {fileID: 2027316637}
   scatterMode: 0
   home: 0
@@ -6222,7 +6230,7 @@ Transform:
   m_GameObject: {fileID: 985867771}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8476,7 +8484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d101a1008b324264aa8bf2c65bb0e9ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  spawnPosition: {x: 0, y: 0.5}
+  speed: 0
   pacmanPosition: {fileID: 2027316637}
   scatterMode: 0
   home: 0
@@ -8564,7 +8573,7 @@ Transform:
   m_GameObject: {fileID: 1613876345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

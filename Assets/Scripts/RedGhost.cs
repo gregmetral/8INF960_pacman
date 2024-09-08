@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class RedGhost : Ghost
 {
-    new void Start()
-    {
-        base.Start();
-
-        spawnPosition = new Vector2(0, 3.5f);
-
-        ResetGhost();
-    }
+    //new void Start()
+    //{
+    //    base.Start();
+    //    spawnPosition = new Vector2(0, 3.5f);
+    //    ResetGhost();
+    //}
 
     public override void ResetGhost()
     {

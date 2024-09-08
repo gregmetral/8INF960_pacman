@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
-    protected Vector2 spawnPosition;
+    public Vector2 spawnPosition = new Vector2(0, 3.5f);
     protected Rigidbody2D rb;
-    protected Vector2 currentPosition;
     public Vector2 currentDirection { get; protected set;  }
-    protected Vector2 nextDirection;
+    protected Vector2 nextDirection = Vector2.right;
     public float speed;
-
 
     public Transform pacmanPosition;
     protected bool isScattered;
@@ -63,17 +61,17 @@ public class Ghost : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        currentPosition = this.rb.position;
+        Vector2 curPos = rb.position;
         if (nextDirection != Vector2.zero)
         {
-            hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
+            hit = Physics2D.BoxCast(curPos, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
             if (hit.collider == null)
             {
                 ChangeDirection();
             }
         }
-
-        rb.MovePosition(currentPosition + currentDirection * (speed * Time.fixedDeltaTime));
+        
+        rb.MovePosition(curPos + currentDirection * (speed * Time.fixedDeltaTime));
     }
 
     protected void ChangeDirection()
@@ -218,22 +216,22 @@ public class Ghost : MonoBehaviour
         return dir;
     }
 
-    public void SetFrightenedMode()
+    public void SetFrightenedMode(float speed)
     {
+        this.speed = speed;
         frightened = true;
         body.SetActive(false);
         eyes.SetActive(false);
         frightenedBody.SetActive(true);
-        speed = 2.0f;
     }
 
-    public void SetNormalMode()
+    public void SetNormalMode(float speed)
     {
+        this.speed = speed;
         frightened = false;
         body.SetActive(true);
         eyes.SetActive(true);
         frightenedBody.SetActive(false);
-        speed = 7.0f;
     }
 
     public void FrightenedModeMove(GameObject obj)
