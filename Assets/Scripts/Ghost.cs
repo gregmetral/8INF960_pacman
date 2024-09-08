@@ -63,13 +63,21 @@ public class Ghost : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        currentPosition = this.rb.position;
-        if (nextDirection != Vector2.zero)
+        if (home)
         {
-            hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
-            if (hit.collider == null)
+            currentPosition = rb.position;
+            currentDirection = nextDirection;
+        }
+        else
+        {
+            currentPosition = this.rb.position;
+            if (nextDirection != Vector2.zero)
             {
-                ChangeDirection();
+                hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
+                if (hit.collider == null)
+                {
+                    ChangeDirection();
+                }
             }
         }
 
@@ -268,18 +276,68 @@ public class Ghost : MonoBehaviour
         scatterMode = !scatterMode;
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void LeaveGhostHouse()
     {
-        if (collision.gameObject.CompareTag("Pacman"))
+        home = false;
+        transform.position = new Vector2(0, 3.5f);
+        nextDirection = Vector2.left;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (home)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            {
+                if (currentDirection == Vector2.up)
+                {
+                    nextDirection = Vector2.down;
+                }
+                else if (currentDirection == Vector2.down)
+                {
+                    nextDirection = Vector2.up;
+                }
+                else if (currentDirection == Vector2.left)
+                {
+                    nextDirection = Vector2.right;
+                }
+                else if (currentDirection == Vector2.right)
+                {
+                    nextDirection = Vector2.left;
+                }
+            }
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
         {
             if (frightened)
             {
-                Debug.Log("Ghost death");
+                ResetGhost();
             }
             else
             {
                 FindObjectOfType<GameManager>().OnPacmanDeath();
             }
         }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
+        {
+            if (scatterMode)
+            {
+                ScatterMode(collision.gameObject);
+            }
+            else if (frightened)
+            {
+                FrightenedModeMove(collision.gameObject);
+            }
+            else
+            {
+                OnNodeLocation(collision.gameObject);
+            }
+        }
+    }
+
+    public virtual void OnNodeLocation(GameObject gameObject)
+    {
     }
 }

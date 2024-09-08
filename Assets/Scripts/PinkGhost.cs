@@ -9,7 +9,7 @@ public class PinkGhost : Ghost
     {
         base.Start();
 
-        spawnPosition = new Vector2(0, -2.5f);
+        spawnPosition = new Vector2(0, -0.5f);
 
         ResetGhost();
     }
@@ -22,11 +22,13 @@ public class PinkGhost : Ghost
 
     public void ResetPinkGhost()
     {
-        currentDirection = Vector2.left;
+        nextDirection = Vector2.up;
+        home = true;
     }
 
-    private void OnNodeLocation(Vector2 nodePosition)
+    public override void OnNodeLocation(GameObject gameObject)
     {
+        Vector2 nodePosition = gameObject.transform.position;
         smallestDistance = 100.0f;
         LookForAvailableTiles(nodePosition);
         foreach (Vector2 possibleDirection in availableTilesPosition)
@@ -45,24 +47,5 @@ public class PinkGhost : Ghost
     private Vector2 ReadPacmanFuturePosition()
     {
         return (Vector2)pacmanPosition.position + targetInFrontOfPacman * pacman.currentDirection;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
-        {
-            if (scatterMode)
-            {
-                ScatterMode(collision.gameObject);
-            }
-            else if (frightened)
-            {
-                FrightenedModeMove(collision.gameObject);
-            }
-            else
-            {
-                OnNodeLocation(collision.gameObject.transform.position);
-            }
-        }
     }
 }

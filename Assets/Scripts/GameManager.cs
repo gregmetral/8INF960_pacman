@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public int totalOrbs;
     public int numOrbs;
+    public int nbOrbEaten;
     public Fruit fruitManager;
 
     public RedGhost redGhost;
@@ -152,6 +153,19 @@ public class GameManager : MonoBehaviour
             StartRound();
         }
         fruitManager.OrbEat();
+        nbOrbEaten ++;
+        if (nbOrbEaten == 2)
+        {
+            pinkGhost.LeaveGhostHouse();
+        }
+        if (nbOrbEaten == 82)
+        {
+            orangeGhost.LeaveGhostHouse();
+        }
+        else if (nbOrbEaten == 30)
+        {
+            blueGhost.LeaveGhostHouse();
+        }
     }
 
     public void EatOrb(GameObject orb) //a appeler quand pacman mange une orbe
