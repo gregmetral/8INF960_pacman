@@ -75,6 +75,47 @@ public class GameManager : MonoBehaviour
         pinkGhost.SetNormalMode();
 
         //timer 3 2 1 avant de commencer
+        StartCoroutine(StartCountdown());
+    }
+
+    private IEnumerator StartCountdown()
+    {
+        redGhost.enabled = false;
+        pinkGhost.enabled = false;
+        orangeGhost.enabled = false;
+        blueGhost.enabled = false;
+        pacman.enabled = false;
+
+        CountdownManager cm = FindObjectOfType<CountdownManager>();
+        cm.StartCountdown();
+        yield return new WaitForSeconds(3);
+
+        redGhost.enabled = true;
+        pinkGhost.enabled = true;
+        orangeGhost.enabled = true;
+        blueGhost.enabled = true;
+        pacman.enabled = true;
+
+        StartCoroutine(RespawnGhosts());
+    }
+
+    private IEnumerator RespawnGhosts()
+    {
+        yield return new WaitForSeconds(1);
+        if (nbOrbEaten >= 2)
+        {
+            pinkGhost.LeaveGhostHouse();
+        }
+        yield return new WaitForSeconds(1);
+        if (nbOrbEaten >= 30)
+        {
+            blueGhost.LeaveGhostHouse();
+        }
+        yield return new WaitForSeconds(1);
+        if (nbOrbEaten >= 82)
+        {
+            orangeGhost.LeaveGhostHouse();
+        }
     }
 
     private void Update()
