@@ -5496,6 +5496,7 @@ MonoBehaviour:
   eyes: {fileID: 1335754055}
   body: {fileID: 1688838406}
   frightenedBody: {fileID: 1458237244}
+  gameManager: {fileID: 0}
 --- !u!1 &123590364
 GameObject:
   m_ObjectHideFlags: 0
@@ -6068,6 +6069,7 @@ MonoBehaviour:
   eyes: {fileID: 1036435327}
   body: {fileID: 1451908918}
   frightenedBody: {fileID: 1716530444}
+  gameManager: {fileID: 0}
 --- !u!58 &512340888
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6452,6 +6454,7 @@ MonoBehaviour:
   eyes: {fileID: 492920851}
   body: {fileID: 1209809853}
   frightenedBody: {fileID: 1404715674}
+  gameManager: {fileID: 0}
 --- !u!58 &985867773
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9064,6 +9067,7 @@ MonoBehaviour:
   eyes: {fileID: 874829623}
   body: {fileID: 1519950361}
   frightenedBody: {fileID: 1331303786}
+  gameManager: {fileID: 0}
   pacman: {fileID: 2027316638}
 --- !u!58 &1613876347
 CircleCollider2D:
