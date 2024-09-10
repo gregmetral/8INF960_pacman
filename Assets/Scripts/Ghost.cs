@@ -37,8 +37,11 @@ public class Ghost : MonoBehaviour
     public GameObject body;
     public GameObject frightenedBody;
 
+    public GameManager gameManager;
+
     protected void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         availableTilesPosition = new List<Vector2>();
 
@@ -316,11 +319,12 @@ public class Ghost : MonoBehaviour
             if (frightened)
             {
                 ResetGhost();
+                gameManager.scoreManager.AddScore(200);
                 LeaveGhostHouse();
             }
             else // Pacman is eaten
             {
-                FindObjectOfType<GameManager>().OnPacmanDeath();
+                gameManager.OnPacmanDeath();
             }
         }
 
