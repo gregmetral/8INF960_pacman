@@ -158,6 +158,7 @@ public class GameManager : MonoBehaviour
             Destroy(livesTable[index]);
             livesTable.RemoveAt(index);
             StartRound();
+            fruitManager.AddRound(-1);
         }
         else
         {

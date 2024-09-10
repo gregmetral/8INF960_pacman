@@ -54,6 +54,11 @@ public class Fruit : MonoBehaviour
         currRound++;
     }
 
+    public void AddRound(int value)
+    {
+        currRound += value;
+    }
+
     public void OrbEat()
     {
         nbPelletEaten++;
