@@ -23,7 +23,7 @@ public class Fruit : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
         fruitSpriteRenderer = GetComponent<SpriteRenderer>();
         fruitSpriteRenderer.enabled = false;
     }

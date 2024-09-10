@@ -21,14 +21,13 @@ public class Pacman : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         ResetPacman();
     }
 
     public void ResetPacman()
     {
-        //reset la position de pacman
         this.transform.position = spawnPosition;
         currentDirection = Vector2.zero;
         nextDirection = Vector2.zero;
@@ -60,7 +59,7 @@ public class Pacman : MonoBehaviour
     {
         currentPosition = this.rb.position;
 
-        //check pour tourner pacman 
+        // Can pacman turn?
         if (nextDirection != Vector2.zero)
         {
             
@@ -71,7 +70,7 @@ public class Pacman : MonoBehaviour
             }
         }
 
-        //dépalcement
+        // Moving Pacman
         this.rb.MovePosition(currentPosition + currentDirection * speed * Time.fixedDeltaTime);
     }
 

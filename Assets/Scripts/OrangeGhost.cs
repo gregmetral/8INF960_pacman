@@ -5,9 +5,7 @@ public class OrangeGhost : Ghost
     new void Start()
     {
         base.Start();
-
         spawnPosition = new Vector2(2f, 0.5f);
-
         ResetGhost();
     }
 
@@ -27,8 +25,8 @@ public class OrangeGhost : Ghost
     {
         Vector2 nodePosition = node.transform.position;
 
+        // Orange gets near Pacman but when at less than 8 tiles, runs away to its corner
         float distanceToPacman = Vector2.Distance(nodePosition, pacmanPosition.position);
-
         if (distanceToPacman > 8)
         {
             smallestDistance = 100.0f;

@@ -5484,12 +5484,15 @@ MonoBehaviour:
   frightened: 0
   Nodes: {fileID: 1424626222}
   ghostType: 0
-  Wall:
+  wallMask:
     serializedVersion: 2
     m_Bits: 128
-  NodeMask:
+  nodeMask:
     serializedVersion: 2
     m_Bits: 1024
+  pacmanMask:
+    serializedVersion: 2
+    m_Bits: 64
   eyes: {fileID: 1335754055}
   body: {fileID: 1688838406}
   frightenedBody: {fileID: 1458237244}
@@ -6053,12 +6056,15 @@ MonoBehaviour:
   frightened: 0
   Nodes: {fileID: 1424626222}
   ghostType: 2
-  Wall:
+  wallMask:
     serializedVersion: 2
     m_Bits: 128
-  NodeMask:
+  nodeMask:
     serializedVersion: 2
     m_Bits: 1024
+  pacmanMask:
+    serializedVersion: 2
+    m_Bits: 64
   eyes: {fileID: 1036435327}
   body: {fileID: 1451908918}
   frightenedBody: {fileID: 1716530444}
@@ -6434,12 +6440,15 @@ MonoBehaviour:
   frightened: 0
   Nodes: {fileID: 1424626222}
   ghostType: 3
-  Wall:
+  wallMask:
     serializedVersion: 2
     m_Bits: 128
-  NodeMask:
+  nodeMask:
     serializedVersion: 2
     m_Bits: 1024
+  pacmanMask:
+    serializedVersion: 2
+    m_Bits: 64
   eyes: {fileID: 492920851}
   body: {fileID: 1209809853}
   frightenedBody: {fileID: 1404715674}
@@ -9043,12 +9052,15 @@ MonoBehaviour:
   frightened: 0
   Nodes: {fileID: 1424626222}
   ghostType: 1
-  Wall:
+  wallMask:
     serializedVersion: 2
     m_Bits: 128
-  NodeMask:
+  nodeMask:
     serializedVersion: 2
     m_Bits: 1024
+  pacmanMask:
+    serializedVersion: 2
+    m_Bits: 64
   eyes: {fileID: 874829623}
   body: {fileID: 1519950361}
   frightenedBody: {fileID: 1331303786}

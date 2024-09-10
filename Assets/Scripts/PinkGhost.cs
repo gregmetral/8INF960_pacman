@@ -8,9 +8,7 @@ public class PinkGhost : Ghost
     new void Start()
     {
         base.Start();
-
         spawnPosition = new Vector2(0, -0.5f);
-
         ResetGhost();
     }
 
@@ -28,6 +26,7 @@ public class PinkGhost : Ghost
 
     public override void OnNodeLocation(GameObject gameObject)
     {
+        // Pink tries to reach for the tile 4 tiles in front of Pacman
         Vector2 nodePosition = gameObject.transform.position;
         smallestDistance = 100.0f;
         LookForAvailableTiles(nodePosition);

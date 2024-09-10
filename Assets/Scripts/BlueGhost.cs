@@ -26,13 +26,11 @@ public class BlueGhost : Ghost
         Vector2 nodePosition = gameObject.transform.position;
         LookForAvailableTiles(nodePosition);
 
+        // Blue selects a random direction
         int index = Random.Range(0, availableTilesPosition.Count);
-
         if (this.home == false && this.frightened == false){
             if (availableTilesPosition[index] == -this.currentDirection && availableTilesPosition.Count > 1){
-
                 index++;
-
                 if(index >= availableTilesPosition.Count){
                     index = 0;
                 }

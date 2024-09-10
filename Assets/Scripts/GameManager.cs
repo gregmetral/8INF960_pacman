@@ -56,14 +56,15 @@ public class GameManager : MonoBehaviour
         StartRound();
     }
 
-    private void StartRound() //d�but de round (1 round/vie)
+    private void StartRound() // round beginning
     {
-        pacman.ResetPacman(); // reset position de pacman
-        fruitManager.NewRound(); // reset fruit
-        redGhost.ResetGhost(); // reset position du ghost
-        blueGhost.ResetGhost(); // reset position du ghost
-        orangeGhost.ResetGhost(); // reset position du ghost
-        pinkGhost.ResetGhost(); // reset position du ghost
+        // Reset all states
+        pacman.ResetPacman();
+        fruitManager.NewRound(); 
+        redGhost.ResetGhost(); 
+        blueGhost.ResetGhost(); 
+        orangeGhost.ResetGhost(); 
+        pinkGhost.ResetGhost(); 
 
         modeTimer = 0.0f;
         currentModeIndex = 0;
@@ -74,12 +75,13 @@ public class GameManager : MonoBehaviour
         orangeGhost.SetNormalMode();
         pinkGhost.SetNormalMode();
 
-        //timer 3 2 1 avant de commencer
+        // Timer
         StartCoroutine(StartCountdown());
     }
 
     private IEnumerator StartCountdown()
     {
+        // Deactivate everything
         redGhost.enabled = false;
         pinkGhost.enabled = false;
         orangeGhost.enabled = false;
@@ -96,6 +98,7 @@ public class GameManager : MonoBehaviour
         blueGhost.enabled = true;
         pacman.enabled = true;
 
+        // Respawn ghosts if they should be outside
         StartCoroutine(RespawnGhosts());
     }
 
@@ -146,7 +149,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnPacmanDeath() //a appeler quand collision entre pacman et ghost
+    public void OnPacmanDeath()
     {
         if(this.lives - 1 != 0)
         {
@@ -162,9 +165,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void EndGame() //fin de partie, sauvegarde le score et load la scene de fin
+    private void EndGame()
     {
-        //animation mort
         scoreManager.SaveScore();
         SceneManager.LoadScene("Score"); 
     }
@@ -179,7 +181,7 @@ public class GameManager : MonoBehaviour
         this.numOrbs = newNumOrbs;
     }
 
-    private void OnOrbEaten(GameObject orb) //d�sactive l'orbe et compte le nombre d'orbes restant
+    private void OnOrbEaten(GameObject orb) 
     {
         orb.SetActive(false);
         SetNumOrbs(numOrbs - 1);
@@ -209,13 +211,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EatOrb(GameObject orb) //a appeler quand pacman mange une orbe
+    public void EatOrb(GameObject orb)
     {
         scoreManager.AddScore(10);
         OnOrbEaten(orb);
     }
 
-    public void EatPowerOrb(GameObject powerOrb) //a appeler quand pacman mange une orbe sp�ciale
+    public void EatPowerOrb(GameObject powerOrb) 
     {
         scoreManager.AddScore(50);
         OnOrbEaten(powerOrb);

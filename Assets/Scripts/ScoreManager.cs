@@ -77,7 +77,7 @@ public class ScoreManager : MonoBehaviour
         DisplayScore();
     }
 
-    public void SaveScore() //sauvegarde le score une fois la partie terminée
+    public void SaveScore()
     {
         PlayerPrefs.SetInt(ScoreSaveName, score);
         if (newHighscore)

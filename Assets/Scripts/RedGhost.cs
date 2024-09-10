@@ -7,9 +7,7 @@ public class RedGhost : Ghost
     new void Start()
     {
         base.Start();
-
         spawnPosition = new Vector2(0, 3.5f);
-
         ResetGhost();
     }
 
@@ -26,6 +24,7 @@ public class RedGhost : Ghost
 
     public override void OnNodeLocation(GameObject gameObject)
     {
+        // Red follows Pacman
         Vector2 nodePosition = gameObject.transform.position;
         smallestDistance = 100.0f;
         LookForAvailableTiles(nodePosition);
@@ -37,8 +36,6 @@ public class RedGhost : Ghost
                 nextDirection = possibleDirection;
                 smallestDistance = distance;
             }
-
-            
         }
         availableTilesPosition.Clear();
     }

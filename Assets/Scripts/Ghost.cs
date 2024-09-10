@@ -24,8 +24,9 @@ public class Ghost : MonoBehaviour
 
     public Node.GhostNodeType ghostType;
 
-    public LayerMask Wall;
-    public LayerMask NodeMask;
+    public LayerMask wallMask;
+    public LayerMask nodeMask;
+    public LayerMask pacmanMask;
     protected List<Vector2> availableTilesPosition;
     protected RaycastHit2D hit;
     protected int numberOfPos;
@@ -73,7 +74,7 @@ public class Ghost : MonoBehaviour
             currentPosition = this.rb.position;
             if (nextDirection != Vector2.zero)
             {
-                hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, Wall);
+                hit = Physics2D.BoxCast(currentPosition, new Vector2(0.85f, 0.85f), 0f, nextDirection, 1.5f, wallMask);
                 if (hit.collider == null)
                 {
                     ChangeDirection();
@@ -112,7 +113,7 @@ public class Ghost : MonoBehaviour
 
     protected Vector2 LookForAvailableTile(Vector2 nodePosition, Vector2 direction, float d = 1.0f)
     {
-        hit = Physics2D.Raycast(nodePosition, direction, d, Wall);
+        hit = Physics2D.Raycast(nodePosition, direction, d, wallMask);
         if (hit.collider == null)
         {
             return direction;
@@ -182,7 +183,7 @@ public class Ghost : MonoBehaviour
     {
         Vector2 dir = Vector2.zero;
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(node.position, direction, 20.0f, NodeMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(node.position, direction, 20.0f, nodeMask);
 
         float distanceToTarget = float.MaxValue;
 
@@ -285,9 +286,10 @@ public class Ghost : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // when at home, only go in the other direction
         if (home)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            if (wallMask.value == (wallMask.value | (1 << collision.gameObject.layer)))
             {
                 if (currentDirection == Vector2.up)
                 {
@@ -308,20 +310,22 @@ public class Ghost : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        // Collision with Pacman
+        if (pacmanMask.value == (pacmanMask.value | (1 << collision.gameObject.layer)))
         {
             if (frightened)
             {
                 ResetGhost();
                 LeaveGhostHouse();
             }
-            else
+            else // Pacman is eaten
             {
                 FindObjectOfType<GameManager>().OnPacmanDeath();
             }
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Node"))
+        // Reaches intersection, must decide next direction
+        if (nodeMask.value == (nodeMask.value | (1 << collision.gameObject.layer)))
         {
             if (scatterMode)
             {
@@ -338,7 +342,6 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    public virtual void OnNodeLocation(GameObject gameObject)
-    {
-    }
+    // Overwritten by each specific ghost
+    public virtual void OnNodeLocation(GameObject gameObject) {}
 }
